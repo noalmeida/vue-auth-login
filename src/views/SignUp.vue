@@ -3,15 +3,15 @@
     <div class="container-outher">
       <h1 class="paragraph">Crie uma nova conta</h1>
       <span class="container-login">
-        <input class="form-control" type="email" placeholder="Login"
+        <input class="form-control" type="email" placeholder="Login" v-model="email"
       /></span>
       <span class="container-password"
-        ><input class="form-control" type="password" placeholder="Senha"
+        ><input class="form-control" type="password" placeholder="Senha" v-model="senha"
       /></span>
 
       <br />
       <div class="b-login">
-        <button type="button" class="btn btn-primary btn-lg">Registrar</button>
+        <button type="button" class="btn btn-primary btn-lg" @click="signUp">Registrar</button>
       </div>
       <span>Ou Retorne ao <router-link to="/login">Login</router-link></span>
     </div>
@@ -19,13 +19,30 @@
 </template>
 
 <script>
+
+import { firebase } from '../services/firebase';
+require('firebase/auth')
 export default {
   name: "sign-in",
   data() {
-    return {};
+    return {
+      email: '',
+      senha: ''
+    };
   },
-  methods: {},
-};
+  methods: {
+  signUp(){
+    firebase.auth().createUserWithEmailAndPassword(this.email, this.senha).then((userCredential) => {
+    var user = userCredential.user;
+    console.log(user);  
+  })
+  .catch((error) => {
+    var errorMessage = error.message;
+    alert("Algo inesperado ocorreu " + errorMessage)
+  });
+ }
+}
+}
 </script>
 <style scoped>
 .paragraph {

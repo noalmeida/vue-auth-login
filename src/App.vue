@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-link to="/">Home</router-link>
+    <h1>Página inicial</h1>
+    <br>
+    <h1>Faça login clicando <router-link to="/login">Aqui</router-link> </h1>
+
     <router-view />
   </div>
 </template>
