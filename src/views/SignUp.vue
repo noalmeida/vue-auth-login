@@ -2,17 +2,22 @@
   <div class="login">
     <div class="container-outher">
       <h1 class="paragraph">Crie uma nova conta</h1>
-      <span class="container-login">
-        <input class="form-control" type="email" placeholder="Login" v-model="email"
-      /></span>
-      <span class="container-password"
-        ><input class="form-control" type="password" placeholder="Senha" v-model="senha"
-      /></span>
+      <form class="form-signin">
+        <span class="container-login-username">
+         <input  class="form-control" type="name" placeholder="Name" v-model="username"
+         /></span>
+         <span class="container-login">
+         <input  class="form-control" type="email" placeholder="Email" v-model="email"
+         /></span>
+         <span class="container-password"
+         ><input  class="form-control" type="password" placeholder="Senha" v-model="senha"
+       /></span>
+        <div class="b-login">
+          <!-- <button type="button" class="btn btn-primary btn-lg" @click="saveNewUser">Registrar</button> -->
+          <input type="reset" value="Registrar" class="btn btn-primary btn-lg" @click="saveNewUser">
 
-      <br />
-      <div class="b-login">
-        <button type="button" class="btn btn-primary btn-lg" @click="signUp">Registrar</button>
       </div>
+      </form>
       <span>Ou Retorne ao <router-link to="/login">Login</router-link></span>
     </div>
   </div>
@@ -20,29 +25,33 @@
 
 <script>
 
-import { firebase } from '../services/firebase';
-require('firebase/auth')
 export default {
   name: "sign-in",
   data() {
     return {
+      username: '',
       email: '',
       senha: ''
     };
   },
   methods: {
-  signUp(){
-    firebase.auth().createUserWithEmailAndPassword(this.email, this.senha).then((userCredential) => {
-    var user = userCredential.user;
-    console.log(user);  
-  })
-  .catch((error) => {
-    var errorMessage = error.message;
-    alert("Algo inesperado ocorreu " + errorMessage)
-  });
- }
-}
-}
+  async saveNewUser() {
+
+    const User = Parse.Object.extend("User");
+    const user = new User();
+
+      user.set("username", this.username);
+      user.set("email", this.email);
+      user.set("password", this.senha);
+     try {
+         let result = await user.save()
+         alert('Conta Cadastrada Com sucesso com id:  ' +  result.id);
+
+      } catch(error) {
+         alert('Failed to create new object, with error code: ' + error.message);
+      }
+    },
+}}
 </script>
 <style scoped>
 .paragraph {
@@ -68,5 +77,9 @@ export default {
 }
 .container-login {
   padding-bottom: 0.8rem;
+}
+.form-control {
+  margin: 10px;
+
 }
 </style>

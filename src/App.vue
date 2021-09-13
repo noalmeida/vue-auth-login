@@ -7,6 +7,22 @@
     <router-view />
   </div>
 </template>
+<script>
+export default {
+  name: 'App',
+  data(){
+    return {}
+  },
+
+  methods: {
+  },
+
+}
+
+
+
+</script>
+
 
 <style>
 #app {
@@ -26,7 +42,4 @@
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
